@@ -1,9 +1,25 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import Select from "react-select";
 
+import FilterTags from "@/components/filter-tags";
 import Button from "@/components/button";
 import useStyles from "./style";
+
+const ErrorMessage = (props: { prefix: string; value?: string }) => {
+  const classes = useStyles();
+  const { prefix, value } = props;
+
+  if (!value) {
+    return null;
+  }
+
+  return (
+    <div className={classes.error}>
+      <strong>{prefix}: </strong>
+      {value}
+    </div>
+  );
+};
 
 interface Props {
   onClose?: () => void;
@@ -68,28 +84,17 @@ const Form = (props: Props) => {
     <div>
       {hasError && (
         <div className={classes.errorContainer}>
-          {formik.errors.publication && formik.touched.publication && (
-            <div className={classes.error}>
-              <strong>Zavatra napetraka:</strong>
-              {formik.errors.publication}
-            </div>
-          )}
-          {formik.errors.video && formik.touched.video && (
-            <div className={classes.error}>Video: {formik.errors.video}</div>
-          )}
-          {formik.errors.hour && formik.touched.hour && (
-            <div className={classes.error}>Ora: {formik.errors.hour}</div>
-          )}
-          {formik.errors.visit && formik.touched.visit && (
-            <div className={classes.error}>
-              Fitsidihana: {formik.errors.visit}
-            </div>
-          )}
-          {formik.errors.study && formik.touched.study && (
-            <div className={classes.error}>
-              Fampianarana: {formik.errors.study}
-            </div>
-          )}
+          <ErrorMessage
+            prefix="Zavatra napetraka"
+            value={formik.errors.publication}
+          />
+          <ErrorMessage prefix="Video" value={formik.errors.video} />
+          <ErrorMessage prefix="Ora" value={formik.errors.hour} />
+          <ErrorMessage
+            prefix="Fiverenana mitsidika"
+            value={formik.errors.visit}
+          />
+          <ErrorMessage prefix="Fampianarana" value={formik.errors.study} />
         </div>
       )}
       <form onSubmit={formik.handleSubmit}>
@@ -165,7 +170,7 @@ const Form = (props: Props) => {
 
         <hr className={classes.hr} />
 
-        <div className={classes.fieldContainerNote}>
+        <div className={classes.fieldContainerCol}>
           <label htmlFor="note">Fanamarihana</label>
           <textarea
             id="note"
@@ -176,20 +181,10 @@ const Form = (props: Props) => {
           />
         </div>
 
-        <Select
-          isMulti
-          options={[
-            { value: "chocolate", label: "Chocolate" },
-            { value: "strawberry", label: "Strawberry" },
-            { value: "vanilla", label: "Vanilla" },
-            { value: "cookie", label: "Cookie" },
-            { value: "peanut", label: "Peanut" },
-            { value: "almond", label: "Almond" },
-            { value: "hazelnut", label: "Hazelnut" },
-            { value: "pecan", label: "Pecan" },
-            { value: "pistachio", label: "Pistachio" },
-          ]}
-        />
+        <div className={classes.fieldContainerCol}>
+          <label htmlFor="tag">Marika</label>
+          <FilterTags />
+        </div>
         <div className={classes.bottomContainer}>
           <Button variant="secondary" label="Hiala" onClick={onClose} />
           <Button type="submit" variant="primary" label="Ampidirina" />

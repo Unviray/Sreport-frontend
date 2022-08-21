@@ -1,5 +1,5 @@
 import PreacherCard from "@/components/preacher-card";
-import FilterTags from "./filter-tags";
+import FilterTags from "@/components/filter-tags";
 import useStyles from "./style";
 
 const preacherMockData = [

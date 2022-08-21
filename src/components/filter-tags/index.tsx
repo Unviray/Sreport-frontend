@@ -11,8 +11,8 @@ const preacherMockData = [
   },
   {
     id: 2,
-    name: "Mpikarakara fiangonana",
-    color: "#EEC643",
+    name: "Mpisavalalana Mpanampy",
+    color: "#F17300",
   },
   {
     id: 3,
@@ -23,6 +23,11 @@ const preacherMockData = [
     id: 4,
     name: "Rahalahy vita batisa",
     color: "#4B6858",
+  },
+  {
+    id: 5,
+    name: "Mpikarakara fiangonana",
+    color: "#EEC643",
   },
 ];
 

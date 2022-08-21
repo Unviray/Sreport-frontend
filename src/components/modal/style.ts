@@ -26,8 +26,15 @@ const useStyles = createUseStyles({
     padding: 16,
   },
 
+  innerContainer: {
+    display: "flex",
+    minHeight: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   panel: {
-    margin:{
+    margin: {
       right: "auto",
       left: "auto",
     },
@@ -35,7 +42,7 @@ const useStyles = createUseStyles({
     backgroundColor: "white",
     borderRadius: 8,
     padding: 8,
-  }
+  },
 });
 
 export default useStyles;

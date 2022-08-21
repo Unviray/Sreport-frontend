@@ -15,9 +15,9 @@ const Modal = (props: Props) => {
     <Dialog open={open} onClose={onClose} className={classes.mainDialog}>
       <div className={classes.backdrop} aria-hidden="true" />
       <div className={classes.fullContainer}>
-        <Dialog.Panel className={classes.panel}>
-          {children}
-        </Dialog.Panel>
+        <div className={classes.innerContainer}>
+          <Dialog.Panel className={classes.panel}>{children}</Dialog.Panel>
+        </div>
       </div>
     </Dialog>
   );

@@ -8,9 +8,10 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
   },
 
-  fieldContainerNote: {
+  fieldContainerCol: {
     display: "flex",
     flexDirection: "column",
+    marginBottom: 8,
   },
 
   hr: {
