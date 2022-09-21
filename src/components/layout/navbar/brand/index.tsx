@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import useStyles from "./style";
 import WorkingMonth from "./working-month";
+import useStyles from "./style";
 
 const Brand = () => {
   const classes = useStyles();

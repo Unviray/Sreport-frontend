@@ -34,7 +34,7 @@ const Button = (props: Props) => {
       className={`${classes.container} ${variantClass[variant]} ${className}`}
     >
       {Icon && <Icon size={24} />}
-      <p className={classes.label}>{label}</p>
+      {label && <p className={classes.label}>{label}</p>}
     </button>
   );
 };
