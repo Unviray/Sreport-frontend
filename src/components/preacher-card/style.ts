@@ -1,5 +1,4 @@
 import { createUseStyles } from "react-jss";
-import { Props } from "./type";
 
 const useStyles = createUseStyles((theme) => ({
   container: {
@@ -10,8 +9,6 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "end",
-    backgroundColor: ({ returned }: Props) =>
-      returned ? theme.colors.primary : theme.colors.secondary,
     padding: {
       left: 12,
       right: 12,
@@ -24,9 +21,17 @@ const useStyles = createUseStyles((theme) => ({
       left: -8,
       right: 8,
     },
-    color: ({ returned }: Props) =>
-      returned ? theme.colors.onPrimary : theme.colors.onSecondary,
     borderRadius: 4,
+  },
+
+  idsContainerNotReturned: {
+    backgroundColor: theme.colors.secondary,
+    color: theme.colors.onSecondary,
+  },
+
+  idsContainerReturned: {
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.onPrimary,
   },
 
   tagsContainer: {

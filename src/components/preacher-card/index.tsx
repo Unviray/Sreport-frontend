@@ -1,16 +1,25 @@
-import { useTheme } from "react-jss";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { getPreacher } from "@/services/preacher";
 import Surface from "@/components/surface";
 import TagPill from "@/components/tag-pill";
 import useStyles from "./style";
-import { Props } from "./type";
+import { Data, Props } from "./type";
 
 const PreacherCard = (props: Props) => {
-  const { id, group, name, tags } = props;
-  const theme = useTheme<Jss.Theme>();
-  const classes = useStyles({ ...props, theme });
+  const { id } = props;
   const navigate = useNavigate();
+  const classes = useStyles();
+  const [data, setData] = useState<Data>();
+
+  useEffect(() => {
+    getPreacher(id).then(setData);
+  }, []);
+
+  if (data === undefined) {
+    return null;
+  }
 
   return (
     <Surface
@@ -19,14 +28,20 @@ const PreacherCard = (props: Props) => {
         navigate(`/mpitory/${id}`);
       }}
     >
-      <div className={classes.idsContainer}>
-        <div className={classes.id}>{id}</div>
-        <div>{group}</div>
+      <div
+        className={`${classes.idsContainer} ${
+          data.returned
+            ? classes.idsContainerReturned
+            : classes.idsContainerNotReturned
+        }`}
+      >
+        <div className={classes.id}>{data.id}</div>
+        <div>{data.group}</div>
       </div>
       <div>
-        <p className={classes.name}>{name}</p>
+        <p className={classes.name}>{data.displayName}</p>
         <div className={classes.tagsContainer}>
-          {tags.map((tag) => (
+          {data.tags.map((tag) => (
             <TagPill key={tag.id} {...tag} />
           ))}
         </div>
