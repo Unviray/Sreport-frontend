@@ -25,8 +25,19 @@ export const getReturnedInfo = async () => {
   ).data;
 };
 
-export const getServiceYear = async () => {
+export const getServiceYear = async (id?: number) => {
   return (
-    await requests.get<{ month: string; hour: number }[]>("/service-year")
+    await requests.get<
+      {
+        month: string;
+        publication: number;
+        video: number;
+        hour: number;
+        visit: number;
+        study: number;
+      }[]
+    >("/service-year", {
+      params: { id },
+    })
   ).data;
 };

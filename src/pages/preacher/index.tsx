@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { IconPencil, IconPlus } from "@tabler/icons";
 
-import PreacherCard from "@/components/preacher-card";
-import Button from "@/components/button";
 import ServiceYear from "@/components/pages/preacher/service-year";
 import Fulltable from "@/components/pages/preacher/full-table";
+import PreacherCard from "@/components/preacher-card";
+import Button from "@/components/button";
 
 import useStyles from "./style";
 import EditReport from "@/components/pages/preacher/edit-report";
@@ -19,8 +19,8 @@ const PreacherPage = () => {
   return (
     <div className={classes.container}>
       <div className={classes.mainContainer}>
-        <ServiceYear />
-        <Fulltable />
+        <ServiceYear id={parseInt(id || "0")} />
+        <Fulltable id={parseInt(id || "0")} />
         <div className={classes.footerContainer}>
           <Button
             variant={returned ? "secondary" : "primary"}
@@ -29,6 +29,7 @@ const PreacherPage = () => {
             onClick={() => setShowEditReport(true)}
           />
           <EditReport
+            id={parseInt(id || "0")}
             open={showEditReport}
             onClose={() => {
               setShowEditReport((s) => !s);
@@ -37,24 +38,7 @@ const PreacherPage = () => {
         </div>
       </div>
       <div>
-        <PreacherCard
-          id={parseInt(id || "0")}
-          group={3}
-          returned
-          name="Jonatana Rabemananjara"
-          tags={[
-            {
-              id: 1,
-              name: "Mpisavalalana Maharitra",
-              color: "#FF858D",
-            },
-            {
-              id: 2,
-              name: "Mpikarakara fiangonana",
-              color: "#EEC643",
-            },
-          ]}
-        />
+        <PreacherCard id={parseInt(id || "0")} />
       </div>
     </div>
   );

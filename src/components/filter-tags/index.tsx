@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+
+import { apiTags } from "@/services/report";
 import TagPill from "@/components/tag-pill";
-import { useState } from "react";
 import useStyles from "./style";
 
 const preacherMockData = [
@@ -34,10 +36,17 @@ const preacherMockData = [
 const FilterTags = () => {
   const classes = useStyles();
   const [active, setActive] = useState<number[]>([]);
+  const [data, setData] = useState<
+    { id: number; name: string; color: string }[]
+  >([]);
+
+  useEffect(() => {
+    apiTags().then(setData);
+  }, []);
 
   return (
     <div className={classes.container}>
-      {preacherMockData.map((tag) => (
+      {data.map((tag) => (
         <TagPill
           key={tag.id}
           {...tag}
