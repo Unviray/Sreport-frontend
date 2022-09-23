@@ -1,4 +1,4 @@
-import type { TablerIcon } from "@tabler/icons";
+import { IconLoader2, TablerIcon } from "@tabler/icons";
 import useStyles from "./style";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   variant?: "primary" | "secondary" | "default";
   type?: "button" | "submit" | "reset";
   className?: string;
+  loading?: boolean;
 }
 
 const Button = (props: Props) => {
@@ -18,6 +19,7 @@ const Button = (props: Props) => {
     type = "button",
     variant = "default",
     className,
+    loading,
   } = props;
   const classes = useStyles();
 
@@ -32,8 +34,17 @@ const Button = (props: Props) => {
       type={type}
       onClick={onClick}
       className={`${classes.container} ${variantClass[variant]} ${className}`}
+      disabled={loading}
     >
-      {Icon && <Icon size={24} />}
+      {Icon ? (
+        loading ? (
+          <IconLoader2 size={24} className={classes.loadingIcon} />
+        ) : (
+          <Icon size={24} />
+        )
+      ) : (
+        loading && <IconLoader2 size={24} className={classes.loadingIcon} />
+      )}
       {label && <p className={classes.label}>{label}</p>}
     </button>
   );

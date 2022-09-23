@@ -13,6 +13,14 @@ const useStyles = createUseStyles((theme) => ({
       color: theme.colors.onSurface,
     },
     "#root": hFull,
+    "@keyframes spin": {
+      from: {
+        transform: "rotate(0deg)",
+      },
+      to: {
+        transform: "rotate(360deg)",
+      },
+    },
   },
 }));
 

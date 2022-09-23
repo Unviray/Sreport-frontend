@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -33,6 +33,7 @@ interface Props {
 
 const Form = (props: Props) => {
   const { id, onClose, workingMonth, update } = props;
+  const [submitting, setSubmitting] = useState(false);
   const classes = useStyles();
   const formik = useFormik<{
     publication: number;
@@ -84,9 +85,12 @@ const Form = (props: Props) => {
         .integer("Tokony ho isa tsy misy faingo"),
     }),
     onSubmit: (values) => {
-      apiSendReport(id, workingMonth, values).then(() => {
-        update();
-      });
+      setSubmitting(true);
+      apiSendReport(id, workingMonth, values)
+        .then(() => {
+          update();
+        })
+        .finally(() => setSubmitting(false));
     },
   });
 
@@ -227,7 +231,12 @@ const Form = (props: Props) => {
         </div>
         <div className={classes.bottomContainer}>
           <Button variant="secondary" label="Hiala" onClick={onClose} />
-          <Button type="submit" variant="primary" label="Ampidirina" />
+          <Button
+            type="submit"
+            variant="primary"
+            label="Ampidirina"
+            loading={submitting}
+          />
         </div>
       </form>
     </div>

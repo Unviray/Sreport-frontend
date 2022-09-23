@@ -52,6 +52,10 @@ const useStyles = createUseStyles((theme) => ({
     marginLeft: 4,
     marginRight: 4,
   },
+
+  loadingIcon: {
+    animation: "spin 1s linear infinite",
+  },
 }));
 
 export default useStyles;
