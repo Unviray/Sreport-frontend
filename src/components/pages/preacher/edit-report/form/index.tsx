@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
+import type { TWorkingMonth } from "@/types/month";
+import { apiReport, apiSendReport } from "@/services/report";
 import FilterTags from "@/components/filter-tags";
 import Button from "@/components/button";
 import useStyles from "./style";
@@ -22,13 +25,24 @@ const ErrorMessage = (props: { prefix: string; value?: string }) => {
 };
 
 interface Props {
+  id: number;
   onClose?: () => void;
+  workingMonth: TWorkingMonth;
+  update: () => void;
 }
 
 const Form = (props: Props) => {
-  const { onClose } = props;
+  const { id, onClose, workingMonth, update } = props;
   const classes = useStyles();
-  const formik = useFormik({
+  const formik = useFormik<{
+    publication: number;
+    video: number;
+    hour: number;
+    visit: number;
+    study: number;
+    note: string;
+    tagIds: number[];
+  }>({
     initialValues: {
       publication: 0,
       video: 0,
@@ -36,6 +50,7 @@ const Form = (props: Props) => {
       visit: 0,
       study: 0,
       note: "",
+      tagIds: [],
     },
     validationSchema: yup.object({
       publication: yup
@@ -69,9 +84,34 @@ const Form = (props: Props) => {
         .integer("Tokony ho isa tsy misy faingo"),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      apiSendReport(id, workingMonth, values).then(() => {
+        update();
+      });
     },
   });
+
+  useEffect(() => {
+    apiReport(id, workingMonth).then((report) => {
+      if (report === null) {
+        formik.resetForm();
+      } else {
+        formik.setFieldValue("publication", report.publication);
+        formik.setFieldValue("video", report.video);
+        formik.setFieldValue("hour", report.hour);
+        formik.setFieldValue("visit", report.visit);
+        formik.setFieldValue("study", report.study);
+        formik.setFieldValue("note", report.note);
+        formik.setFieldValue(
+          "tagIds",
+          report.Tags.map((tag) => tag.id)
+        );
+      }
+    });
+  }, [workingMonth]);
+
+  const setTagIds = (value: number[]) => {
+    formik.setFieldValue("tagIds", value);
+  };
 
   const hasError =
     formik.errors.publication ||
@@ -183,7 +223,7 @@ const Form = (props: Props) => {
 
         <div className={classes.fieldContainerCol}>
           <label htmlFor="tag">Marika</label>
-          <FilterTags />
+          <FilterTags active={formik.values.tagIds} onChange={setTagIds} />
         </div>
         <div className={classes.bottomContainer}>
           <Button variant="secondary" label="Hiala" onClick={onClose} />

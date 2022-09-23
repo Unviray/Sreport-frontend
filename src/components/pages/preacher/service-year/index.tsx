@@ -7,16 +7,22 @@ import Surface from "@/components/surface";
 
 interface Props {
   id: number;
+  registerUpdate?: (update: () => void) => void;
 }
 const ServiceYear = (props: Props) => {
-  const { id } = props;
+  const { id, registerUpdate } = props;
   const ref = useRef<HTMLDivElement>(null);
   const theme = useTheme<Jss.Theme>();
   const [width, setWidth] = useState(0);
   const [data, setData] = useState<{ month: string; hour: number }[]>([]);
 
+  const update = () => {
+    getServiceYear(id).then(setData);
+  };
+
   useEffect(() => {
     getServiceYear(id).then(setData);
+    registerUpdate?.(update);
   }, []);
 
   useEffect(() => {

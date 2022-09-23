@@ -1,5 +1,6 @@
 export interface Props {
   id: number;
+  registerUpdate?: (update: () => void) => void;
 }
 
 export interface Data {

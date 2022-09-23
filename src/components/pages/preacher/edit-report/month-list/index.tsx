@@ -1,28 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import {
+  getUnprettifyWorkingMonth,
+  getWorkingMonthPrettie,
+} from "@/services/working-month";
+import { TWorkingMonth } from "@/types/month";
+import { apiReturnedService } from "@/services/report";
 import MonthItem from "./item";
 import useStyles from "./style";
 
-const mockData = [
-  { label: "Sep 2021", returned: true },
-  { label: "Okt 2021", returned: true },
-  { label: "Nov 2021", returned: true },
-  { label: "Des 2021", returned: true },
-  { label: "Jan 2022", returned: true },
-  { label: "Feb 2022", returned: true },
-  { label: "Mar 2022", returned: true },
-  { label: "Apr 2022", returned: false },
-  { label: "Mey 2022", returned: false },
-  { label: "Jon 2022", returned: false },
-  { label: "Jol 2022", returned: false },
-  { label: "Aog 2022", returned: false },
-];
-const MonthList = () => {
+interface Props {
+  id: number;
+  onChange: (month: TWorkingMonth) => void;
+  registerUpdate?: (update: () => void) => void;
+}
+
+const MonthList = (props: Props) => {
+  const { id, onChange, registerUpdate } = props;
   const classes = useStyles();
-  const [current, setCurrent] = useState("Apr 2022");
+  const [current, setCurrent] = useState("");
+  const [data, setData] = useState<{ label: string; returned: boolean }[]>([]);
+
+  const update = () => {
+    apiReturnedService(id).then(setData);
+  };
+
+  useEffect(() => {
+    apiReturnedService(id).then(setData);
+    getWorkingMonthPrettie("short").then(setCurrent);
+    registerUpdate?.(update);
+  }, []);
+
+  useEffect(() => {
+    getUnprettifyWorkingMonth(current).then(onChange);
+  }, [current]);
 
   return (
     <div className={classes.container}>
-      {mockData.map((month) => (
+      {data.map((month) => (
         <MonthItem
           key={month.label}
           current={month.label === current}

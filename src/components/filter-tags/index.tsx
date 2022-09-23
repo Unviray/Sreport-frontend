@@ -4,38 +4,14 @@ import { apiTags } from "@/services/report";
 import TagPill from "@/components/tag-pill";
 import useStyles from "./style";
 
-const preacherMockData = [
-  {
-    id: 1,
-    name: "Mpisavalalana Maharitra",
-    color: "#FF858D",
-    active: true,
-  },
-  {
-    id: 2,
-    name: "Mpisavalalana Mpanampy",
-    color: "#F17300",
-  },
-  {
-    id: 3,
-    name: "Anti-panahy",
-    color: "#B5BA72",
-  },
-  {
-    id: 4,
-    name: "Rahalahy vita batisa",
-    color: "#4B6858",
-  },
-  {
-    id: 5,
-    name: "Mpikarakara fiangonana",
-    color: "#EEC643",
-  },
-];
+interface Props {
+  active: number[];
+  onChange: (value: number[]) => void;
+}
 
-const FilterTags = () => {
+const FilterTags = (props: Props) => {
+  const { active, onChange } = props;
   const classes = useStyles();
-  const [active, setActive] = useState<number[]>([]);
   const [data, setData] = useState<
     { id: number; name: string; color: string }[]
   >([]);
@@ -52,13 +28,11 @@ const FilterTags = () => {
           {...tag}
           active={active.includes(tag.id)}
           onClick={() => {
-            setActive((a) => {
-              if (a.includes(tag.id)) {
-                return a.filter((t) => t !== tag.id);
-              } else {
-                return [...a, tag.id];
-              }
-            });
+            onChange(
+              active.includes(tag.id)
+                ? active.filter((t) => t !== tag.id)
+                : [...active, tag.id]
+            );
           }}
         />
       ))}

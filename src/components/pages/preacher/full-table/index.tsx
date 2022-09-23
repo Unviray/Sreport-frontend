@@ -7,10 +7,11 @@ import useStyles from "./style";
 
 interface Props {
   id: number;
+  registerUpdate?: (update: () => void) => void;
 }
 
 const Fulltable = (props: Props) => {
-  const { id } = props;
+  const { id, registerUpdate } = props;
   const classes = useStyles();
   const [data, setData] = useState<
     {
@@ -23,8 +24,13 @@ const Fulltable = (props: Props) => {
     }[]
   >([]);
 
+  const update = () => {
+    getServiceYear(id).then(setData);
+  };
+
   useEffect(() => {
     getServiceYear(id).then(setData);
+    registerUpdate?.(update);
   }, []);
 
   return (

@@ -34,7 +34,7 @@ const SearchPage = () => {
           <PreacherCard key={id} id={id} />
         ))}
       </div>
-      <FilterTags />
+      <FilterTags active={[]} onChange={() => {}} />
     </div>
   );
 };

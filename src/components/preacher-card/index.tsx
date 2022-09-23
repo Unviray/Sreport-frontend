@@ -8,13 +8,18 @@ import useStyles from "./style";
 import { Data, Props } from "./type";
 
 const PreacherCard = (props: Props) => {
-  const { id } = props;
+  const { id, registerUpdate } = props;
   const navigate = useNavigate();
   const classes = useStyles();
   const [data, setData] = useState<Data>();
 
-  useEffect(() => {
+  const update = () => {
     getPreacher(id).then(setData);
+  };
+
+  useEffect(() => {
+    update();
+    registerUpdate?.(update);
   }, []);
 
   if (data === undefined) {
