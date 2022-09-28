@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IconPencil, IconPlus } from "@tabler/icons";
 
@@ -7,6 +7,7 @@ import EditReport from "@/components/pages/preacher/edit-report";
 import Fulltable from "@/components/pages/preacher/full-table";
 import PreacherCard from "@/components/preacher-card";
 import Button from "@/components/button";
+import { getPreacher } from "@/services/preacher";
 
 import useStyles from "./style";
 
@@ -22,8 +23,18 @@ const PreacherPage = () => {
   };
 
   const handleUpdate = () => {
+    getPreacher(parseInt(id || "0")).then((preacher) => {
+      setReturned(preacher.returned);
+    });
+
     updates.forEach((update) => update());
   };
+
+  useEffect(() => {
+    getPreacher(parseInt(id || "0")).then((preacher) => {
+      setReturned(preacher.returned);
+    });
+  }, []);
 
   return (
     <div className={classes.container}>

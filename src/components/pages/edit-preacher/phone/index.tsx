@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconMinus, IconPlus } from "@tabler/icons";
 
 import Button from "@/components/button";
@@ -8,10 +8,11 @@ import useStyles from "./style";
 interface Props {
   label: string;
   error?: boolean;
+  onChange: (value: string[]) => void;
 }
 
 const Phone = (props: Props) => {
-  const { label, error } = props;
+  const { label, error, onChange } = props;
   const classes = useStyles();
   const [values, setValues] = useState<{ id: number; value: string }[]>([]);
 
@@ -38,14 +39,17 @@ const Phone = (props: Props) => {
     });
   };
 
+  useEffect(() => {
+    onChange(values.map((value) => value.value));
+  }, [values]);
+
   return (
     <>
       <div className={classes.fieldContainer}>
         <label>{label}</label>
         {values.map((value) => (
-          <div className={classes.phoneContainer}>
+          <div key={value.id} className={classes.phoneContainer}>
             <input
-              key={value.id}
               id={value.id.toString()}
               name={value.id.toString()}
               type="text"

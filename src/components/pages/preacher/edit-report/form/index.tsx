@@ -4,25 +4,10 @@ import * as yup from "yup";
 
 import type { TWorkingMonth } from "@/types/month";
 import { apiReport, apiSendReport } from "@/services/report";
+import ErrorContainer from "@/components/forms/error-container";
 import FilterTags from "@/components/filter-tags";
 import Button from "@/components/button";
 import useStyles from "./style";
-
-const ErrorMessage = (props: { prefix: string; value?: string }) => {
-  const classes = useStyles();
-  const { prefix, value } = props;
-
-  if (!value) {
-    return null;
-  }
-
-  return (
-    <div className={classes.error}>
-      <strong>{prefix}: </strong>
-      {value}
-    </div>
-  );
-};
 
 interface Props {
   id: number;
@@ -126,21 +111,15 @@ const Form = (props: Props) => {
 
   return (
     <div>
-      {hasError && (
-        <div className={classes.errorContainer}>
-          <ErrorMessage
-            prefix="Zavatra napetraka"
-            value={formik.errors.publication}
-          />
-          <ErrorMessage prefix="Video" value={formik.errors.video} />
-          <ErrorMessage prefix="Ora" value={formik.errors.hour} />
-          <ErrorMessage
-            prefix="Fiverenana mitsidika"
-            value={formik.errors.visit}
-          />
-          <ErrorMessage prefix="Fampianarana" value={formik.errors.study} />
-        </div>
-      )}
+      <ErrorContainer
+        errors={[
+          { prefix: "Zavatra napetraka", message: formik.errors.publication },
+          { prefix: "Video", message: formik.errors.video },
+          { prefix: "Ora", message: formik.errors.hour },
+          { prefix: "Fitsidihana", message: formik.errors.visit },
+          { prefix: "Fampianarana", message: formik.errors.study },
+        ]}
+      />
       <form onSubmit={formik.handleSubmit}>
         <div className={classes.fieldContainer}>
           <label htmlFor="publication">Zavatra napetraka</label>

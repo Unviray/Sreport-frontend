@@ -1,29 +1,33 @@
+import { ReactNode } from "react";
 import useStyles from "./style";
 
 interface Props {
-  id: string;
+  id?: string;
   number?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   error?: string;
-  value: string;
+  value?: string;
+  children?: ReactNode;
 }
 
 const Field = (props: Props) => {
-  const { id, number, onChange, label, error, value } = props;
+  const { id, number, onChange, label, error, value, children } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.fieldContainer}>
       <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        name={id}
-        type={number ? "number" : "text"}
-        onChange={onChange}
-        className={`${classes.input} ${error ? classes.inputError : ""}`}
-        value={value}
-      />
+      {children || (
+        <input
+          id={id}
+          name={id}
+          type={number ? "number" : "text"}
+          onChange={onChange}
+          className={`${classes.input} ${error ? classes.inputError : ""}`}
+          value={value}
+        />
+      )}
     </div>
   );
 };

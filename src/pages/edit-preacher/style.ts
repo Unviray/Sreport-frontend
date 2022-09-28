@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme) => ({
 
   mainContainer: {
     gridColumn: "span 2 / span 2", // col-span-2
+    marginBottom: 8,
   },
 }));
 

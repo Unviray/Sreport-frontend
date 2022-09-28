@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { getPreacher } from "@/services/preacher";
 import Surface from "@/components/surface";
 import TagPill from "@/components/tag-pill";
-import useStyles from "./style";
 import { Data, Props } from "./type";
+import useStyles from "./style";
 
 const PreacherCard = (props: Props) => {
   const { id, registerUpdate } = props;
