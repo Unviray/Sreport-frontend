@@ -5,4 +5,5 @@ export interface Props {
   icon: TablerIcon;
   onClick?: () => void;
   color?: string;
+  target: string;
 }

@@ -7,6 +7,7 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     marginBottom: 8,
     alignItems: "center",
+    cursor: "pointer",
   },
 
   iconContainer: {

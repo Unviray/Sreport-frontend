@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { IconPlus } from "@tabler/icons";
 
-import { apiSendPreacher } from "@/services/preacher";
+import { apiSendPreacher, getPreacherList } from "@/services/preacher";
 import ErrorContainer from "@/components/forms/error-container";
 import Field from "@/components/pages/edit-preacher/field";
 import Phone from "@/components/pages/edit-preacher/phone";
@@ -48,6 +48,14 @@ const EditPreacherPage = () => {
         .number()
         .required("Ilaina ity")
         .min(0, "Tokony mihoatran'ny na mitovy amin'ny 0")
+        .test("FreeId", "Efa misy manana io nomerao io", async (value) => {
+          if (!value) {
+            return false;
+          }
+
+          const res = await getPreacherList();
+          return !res.includes(value);
+        })
         .integer("Tokony ho isa tsy misy faingo"),
       group: yup
         .number()
@@ -57,11 +65,23 @@ const EditPreacherPage = () => {
       firstname: yup.string().required("Ilaina ity"),
     }),
     onSubmit: (values) => {
+      setSubmitting(true);
       apiSendPreacher(parseInt(id || "0"), values).finally(() =>
         setSubmitting(false)
       );
     },
   });
+
+  useEffect(() => {
+    getPreacherList().then((res) => {
+      let freeId = 1;
+      while (res.includes(freeId)) {
+        freeId++;
+      }
+
+      formik.setFieldValue("id", freeId);
+    });
+  }, []);
 
   const setTagIds = (value: number[]) => {
     formik.setFieldValue("tagIds", value);

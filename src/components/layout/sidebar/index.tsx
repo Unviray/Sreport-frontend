@@ -15,13 +15,14 @@ const Sidebar = () => {
 
   return (
     <div>
-      <SidebarItem icon={IconHome} label="Fandraisana" />
+      <SidebarItem icon={IconHome} label="Fandraisana" target="/" />
       {data.map((tag) => (
         <SidebarItem
           key={tag.id}
           icon={IconTag}
           color={tag.color}
           label={tag.name}
+          target={`/marika/${tag.id}`}
         />
       ))}
     </div>
