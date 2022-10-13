@@ -34,7 +34,7 @@ const MainBoard = () => {
 
   useEffect(() => {
     getMainBoard().then(setData);
-  }, []);
+  }, [workingMonthPrettie]);
 
   return (
     <Surface title={workingMonthPrettie}>

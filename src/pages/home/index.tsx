@@ -1,16 +1,17 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "react-jss";
 
 import MainBoard from "@/components/pages/home/main-board";
 import ReturnedInfo from "@/components/pages/home/returned-info";
 import ServiceYear from "@/components/pages/home/service-year";
-
-import useStyles from "./style";
-import { useEffect, useState } from "react";
 import { getReturnedInfo } from "@/services/home";
+import useWorkingMonth from "@/hooks/working-month";
+import useStyles from "./style";
 
 const HomePage = () => {
   const theme = useTheme<Jss.Theme>();
   const classes = useStyles();
+  const { workingMonth } = useWorkingMonth();
   const [returnedInfo, setReturnedInfo] = useState<{
     total: number;
     returned: number;
@@ -19,7 +20,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getReturnedInfo().then(setReturnedInfo);
-  }, []);
+  }, [workingMonth]);
 
   return (
     <div className={classes.container}>

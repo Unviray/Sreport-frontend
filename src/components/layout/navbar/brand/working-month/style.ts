@@ -13,9 +13,13 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: theme.colors.surface,
   },
 
-  text: {
+  input: {
     fontSize: 16,
     fontWeight: "bold",
+    backgroundColor: "transparent",
+    border: "none",
+    outline: "none",
+    fontFamily: "initial",
     margin: {
       top: 0,
       bottom: 0,

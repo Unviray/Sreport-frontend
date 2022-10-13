@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 
 import { getServiceYear } from "@/services/home";
 import Surface from "@/components/surface";
+import useWorkingMonth from "@/hooks/working-month";
 
 interface Props {
   id: number;
@@ -14,6 +15,7 @@ const ServiceYear = (props: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const theme = useTheme<Jss.Theme>();
   const [width, setWidth] = useState(0);
+  const { workingMonth } = useWorkingMonth();
   const [data, setData] = useState<{ month: string; hour: number }[]>([]);
 
   const update = () => {
@@ -21,9 +23,12 @@ const ServiceYear = (props: Props) => {
   };
 
   useEffect(() => {
-    getServiceYear(id).then(setData);
     registerUpdate?.(update);
   }, []);
+
+  useEffect(() => {
+    update();
+  }, [workingMonth]);
 
   useEffect(() => {
     const intervale = setInterval(() => {

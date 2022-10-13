@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import useWorkingMonth from "@/hooks/working-month";
 import { getPreacher } from "@/services/preacher";
 import Surface from "@/components/surface";
 import TagPill from "@/components/tag-pill";
@@ -12,15 +13,19 @@ const PreacherCard = (props: Props) => {
   const navigate = useNavigate();
   const classes = useStyles();
   const [data, setData] = useState<Data>();
+  const { workingMonth } = useWorkingMonth();
+
+  useEffect(() => {
+    registerUpdate?.(update);
+  }, []);
+
+  useEffect(() => {
+    update();
+  }, [workingMonth]);
 
   const update = () => {
     getPreacher(id).then(setData);
   };
-
-  useEffect(() => {
-    update();
-    registerUpdate?.(update);
-  }, []);
 
   if (data === undefined) {
     return null;

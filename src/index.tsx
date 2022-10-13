@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "react-jss";
+import useWorkingMonth from "./hooks/working-month";
 
 import Navigation from "./navigation";
 import useStyles from "./style";
@@ -8,6 +9,12 @@ import theme from "./theme";
 
 const App = () => {
   useStyles();
+  const { setWorkingMonth } = useWorkingMonth();
+
+  useEffect(() => {
+    // Get initial working-month
+    setWorkingMonth();
+  }, []);
 
   return <Navigation />;
 };

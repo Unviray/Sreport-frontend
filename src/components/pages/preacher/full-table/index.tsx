@@ -4,6 +4,7 @@ import Surface from "@/components/surface";
 import Table from "@/components/table";
 import { getServiceYear } from "@/services/home";
 import useStyles from "./style";
+import useWorkingMonth from "@/hooks/working-month";
 
 interface Props {
   id: number;
@@ -13,6 +14,7 @@ interface Props {
 const Fulltable = (props: Props) => {
   const { id, registerUpdate } = props;
   const classes = useStyles();
+  const { workingMonth } = useWorkingMonth();
   const [data, setData] = useState<
     {
       month: string;
@@ -29,9 +31,12 @@ const Fulltable = (props: Props) => {
   };
 
   useEffect(() => {
-    getServiceYear(id).then(setData);
     registerUpdate?.(update);
   }, []);
+
+  useEffect(() => {
+    update();
+  }, [workingMonth]);
 
   return (
     <Surface>

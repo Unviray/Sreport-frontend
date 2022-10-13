@@ -1,29 +1,16 @@
-import { useEffect, useState } from "react";
-import {
-  getWorkingMonth,
-  getWorkingMonthPrettie,
-  setWorkingMonth,
-} from "@/services/working-month";
-import { TWorkingMonth } from "@/types/month";
+import useWorkingMonthStore from "@/store/working-month";
 
 const useWorkingMonth = () => {
-  const [value, setValue] = useState<TWorkingMonth>();
-  const [prettieValue, setPrettieValue] = useState("");
-
-  useEffect(() => {
-    getWorkingMonth().then(setValue);
-    getWorkingMonthPrettie().then(setPrettieValue);
-  }, []);
-
-  const handleChange = (wm: TWorkingMonth) => {
-    setWorkingMonth(wm).then(setValue);
-    getWorkingMonthPrettie().then(setPrettieValue);
-  };
+  const workingMonth = useWorkingMonthStore((state) => state.value);
+  const workingMonthPrettie = useWorkingMonthStore(
+    (state) => state.prettieValue
+  );
+  const setWorkingMonth = useWorkingMonthStore((state) => state.setValue);
 
   return {
-    workingMonth: value,
-    workingMonthPrettie: prettieValue,
-    setWorkingMonth: handleChange,
+    workingMonth,
+    workingMonthPrettie,
+    setWorkingMonth,
   };
 };
 

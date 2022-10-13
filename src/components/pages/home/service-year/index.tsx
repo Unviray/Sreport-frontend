@@ -2,18 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { useTheme } from "react-jss";
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 
+import useWorkingMonth from "@/hooks/working-month";
 import { getServiceYear } from "@/services/home";
 import Surface from "@/components/surface";
 
 const ServiceYear = () => {
   const ref = useRef<HTMLDivElement>(null);
   const theme = useTheme<Jss.Theme>();
+  const { workingMonth } = useWorkingMonth();
   const [width, setWidth] = useState(0);
   const [data, setData] = useState<{ month: string; hour: number }[]>([]);
 
   useEffect(() => {
     getServiceYear().then(setData);
-  }, []);
+  }, [workingMonth]);
 
   useEffect(() => {
     const intervale = setInterval(() => {
@@ -23,8 +25,16 @@ const ServiceYear = () => {
     return () => clearInterval(intervale);
   }, [ref.current]);
 
+  if (data.length === 0) {
+    return null;
+  }
+
   return (
-    <Surface title="Ora nandritran'ny taom-panompoana 2022">
+    <Surface
+      title={`Ora nandritran'ny taom-panompoana ${
+        data[data.length - 1].month.split(" ")[1]
+      }`}
+    >
       <div ref={ref}>
         <BarChart
           width={width}

@@ -7,6 +7,7 @@ import EditReport from "@/components/pages/preacher/edit-report";
 import Fulltable from "@/components/pages/preacher/full-table";
 import PreacherCard from "@/components/preacher-card";
 import Button from "@/components/button";
+import useWorkingMonth from "@/hooks/working-month";
 import { getPreacher } from "@/services/preacher";
 
 import useStyles from "./style";
@@ -16,6 +17,7 @@ const PreacherPage = () => {
   const classes = useStyles();
   const [returned, setReturned] = useState(false);
   const [showEditReport, setShowEditReport] = useState(false);
+  const { workingMonth } = useWorkingMonth();
   const [updates, setUpdates] = useState<(() => void)[]>([]);
 
   const getUpdate = (updateFunc: () => void) => {
@@ -34,7 +36,7 @@ const PreacherPage = () => {
     getPreacher(parseInt(id || "0")).then((preacher) => {
       setReturned(preacher.returned);
     });
-  }, []);
+  }, [id, workingMonth]);
 
   return (
     <div className={classes.container}>
