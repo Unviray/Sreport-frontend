@@ -11,6 +11,7 @@ const useStyles = createUseStyles((theme) => ({
       ...hFull,
       margin: 0,
       color: theme.colors.onSurface,
+      fontFamily: ["Noto Sans", "sans-serif"],
     },
     "#root": hFull,
     "@keyframes spin": {
