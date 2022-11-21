@@ -19,11 +19,10 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: "transparent",
     border: "none",
     outline: "none",
-    fontFamily: "initial",
     margin: {
       top: 0,
       bottom: 0,
-    }
+    },
   },
 }));
 
