@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "react-jss";
-import useWorkingMonth from "./hooks/working-month";
 
+import useWorkingMonth from "./hooks/working-month";
 import Navigation from "./navigation";
 import useStyles from "./style";
 import theme from "./theme";
+
+import moment from "moment";
+import 'moment/dist/locale/fr';
+moment.locale("fr");
 
 const App = () => {
   useStyles();

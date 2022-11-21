@@ -10,6 +10,7 @@ interface Props {
   id: number;
   registerUpdate?: (update: () => void) => void;
 }
+
 const ServiceYear = (props: Props) => {
   const { id, registerUpdate } = props;
   const ref = useRef<HTMLDivElement>(null);
