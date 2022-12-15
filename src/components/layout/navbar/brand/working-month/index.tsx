@@ -1,6 +1,5 @@
 import useWorkingMonth from "@/hooks/working-month";
 import type { TMonthNumbers } from "@/types/month";
-import { useState } from "react";
 import useStyles from "./style";
 
 const WorkingMonth = () => {

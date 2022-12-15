@@ -30,7 +30,8 @@ const useStyles = createUseStyles((theme) => ({
     margin: 4,
     display: "inline-block",
     borderRadius: "50%",
-    backgroundColor: ({ color }: Props) => color,
+    backgroundColor: ({ color, current, soon }: Props) =>
+      current || soon ? Color(color).alpha(0.25).hexa() : color,
   },
 }));
 

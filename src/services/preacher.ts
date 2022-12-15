@@ -1,3 +1,4 @@
+import type { TWorkingMonth } from "@/types/month";
 import requests from "./requests";
 
 export const getPreacherList = async (search?: string, tags?: number[]) => {
@@ -25,6 +26,14 @@ export const getPreacher = async (id: number) => {
         id: number;
         name: string;
         color: string;
+        soon?: {
+          start: TWorkingMonth;
+          end: TWorkingMonth;
+        };
+        current?: {
+          start: TWorkingMonth;
+          end: TWorkingMonth;
+        };
       }[];
     }>(`/preacher/${id}`)
   ).data;

@@ -52,7 +52,7 @@ const PreacherCard = (props: Props) => {
         <p className={classes.name}>{data.displayName}</p>
         <div className={classes.tagsContainer}>
           {data.tags.map((tag) => (
-            <TagPill key={tag.id} {...tag} />
+            <TagPill key={tag.id} preacherId={id} {...tag} />
           ))}
         </div>
       </div>
