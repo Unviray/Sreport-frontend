@@ -1,8 +1,11 @@
 import requests from "./requests";
 
-export const getPreacherList = async (search?: string) => {
-  return (await requests.get<number[]>("/preacher", { params: { search } }))
-    .data;
+export const getPreacherList = async (search?: string, tags?: number[]) => {
+  return (
+    await requests.get<number[]>("/preacher", {
+      params: { search, tags: tags?.toString() },
+    })
+  ).data;
 };
 export const getPreacher = async (id: number) => {
   return (
