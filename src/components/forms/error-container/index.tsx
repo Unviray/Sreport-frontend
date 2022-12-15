@@ -17,8 +17,8 @@ const ErrorContainer = (props: Props) => {
 
   return (
     <div className={classes.errorContainer}>
-      {errors.map((error) => (
-        <Item prefix={error.prefix} value={error.message} />
+      {errors.map((error, index) => (
+        <Item key={index} prefix={error.prefix} value={error.message} />
       ))}
     </div>
   );

@@ -23,8 +23,13 @@ const useStyles = createUseStyles((theme) => ({
     marginBottom: 8,
   },
 
+  header: {
+    display: "flex",
+  },
+
   title: {
     fontWeight: "bold",
+    flexGrow: 1,
     fontSize: 16,
     margin: {
       top: 0,

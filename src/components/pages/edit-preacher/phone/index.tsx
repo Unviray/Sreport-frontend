@@ -7,12 +7,13 @@ import useStyles from "./style";
 
 interface Props {
   label: string;
+  initialValue: string[];
   error?: boolean;
   onChange: (value: string[]) => void;
 }
 
 const Phone = (props: Props) => {
-  const { label, error, onChange } = props;
+  const { label, initialValue, error, onChange } = props;
   const classes = useStyles();
   const [values, setValues] = useState<{ id: number; value: string }[]>([]);
 
@@ -38,6 +39,16 @@ const Phone = (props: Props) => {
       return newValue;
     });
   };
+
+  useEffect(() => {
+    if (values.length === 0) {
+      setValues(
+        initialValue.map((value) => {
+          return { id: Math.random(), value };
+        })
+      );
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     onChange(values.map((value) => value.value));

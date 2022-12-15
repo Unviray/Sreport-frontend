@@ -6,6 +6,7 @@ interface Props {
   label?: string;
   onClick?: () => void;
   variant?: "primary" | "secondary" | "default";
+  size?: "small" | "default";
   type?: "button" | "submit" | "reset";
   className?: string;
   loading?: boolean;
@@ -18,6 +19,7 @@ const Button = (props: Props) => {
     onClick,
     type = "button",
     variant = "default",
+    size = "default",
     className,
     loading,
   } = props;
@@ -29,21 +31,26 @@ const Button = (props: Props) => {
     secondary: classes.variantSecondary,
   };
 
+  const sizeClass = {
+    default: classes.sizeDefault,
+    small: classes.sizeSmall,
+  };
+
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${classes.container} ${variantClass[variant]} ${className}`}
+      className={`${classes.container} ${variantClass[variant]} ${sizeClass[size]} ${className}`}
       disabled={loading}
     >
       {Icon ? (
         loading ? (
-          <IconLoader2 size={24} className={classes.loadingIcon} />
+          <IconLoader2 size={size === "default" ? 24 : 20} className={classes.loadingIcon} />
         ) : (
-          <Icon size={24} />
+          <Icon size={size === "default" ? 24 : 20} />
         )
       ) : (
-        loading && <IconLoader2 size={24} className={classes.loadingIcon} />
+        loading && <IconLoader2 size={size === "default" ? 24 : 20} className={classes.loadingIcon} />
       )}
       {label && <p className={classes.label}>{label}</p>}
     </button>

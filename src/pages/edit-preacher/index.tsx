@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { IconPlus } from "@tabler/icons";
 
-import { apiSendPreacher, getPreacherList } from "@/services/preacher";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { IconPlus } from "@tabler/icons";
+import { useFormik } from "formik";
+import moment from "moment";
+import * as yup from "yup";
+
+import {
+  apiSendPreacher,
+  getPreacher,
+  getPreacherList,
+} from "@/services/preacher";
 import ErrorContainer from "@/components/forms/error-container";
 import Field from "@/components/pages/edit-preacher/field";
 import Phone from "@/components/pages/edit-preacher/phone";
@@ -17,7 +24,9 @@ import useStyles from "./style";
 const EditPreacherPage = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const [phoneInitialValue, setPhoneInitialValue] = useState<string[]>([]);
 
   const formik = useFormik<{
     id: number;
@@ -53,6 +62,10 @@ const EditPreacherPage = () => {
             return false;
           }
 
+          if (id && value === +id) {
+            return true;
+          }
+
           const res = await getPreacherList();
           return !res.includes(value);
         })
@@ -66,22 +79,59 @@ const EditPreacherPage = () => {
     }),
     onSubmit: (values) => {
       setSubmitting(true);
-      apiSendPreacher(parseInt(id || "0"), values).finally(() =>
-        setSubmitting(false)
-      );
+      apiSendPreacher(parseInt(id || "0"), values)
+        .then((res) => {
+          toast.success(
+            id ? "Tontosa ny fanovana" : "Tafiditra soa-amantsara",
+            {
+              position: "bottom-left",
+            }
+          );
+
+          navigate(`/mpitory/${res.id}`);
+        })
+        .catch(() => {
+          toast.error(id ? "Nisy olana tamin'ny fanovana" : "Tsy tafiditra", {
+            position: "bottom-left",
+          });
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
     },
   });
 
   useEffect(() => {
-    getPreacherList().then((res) => {
-      let freeId = 1;
-      while (res.includes(freeId)) {
-        freeId++;
-      }
+    if (id) {
+      getPreacher(+id).then((res) => {
+        formik.setFieldValue("id", res.id);
+        formik.setFieldValue("group", res.group);
+        formik.setFieldValue("firstname", res.firstName);
+        formik.setFieldValue("lastname", res.lastName);
+        formik.setFieldValue("displayname", res.displayName);
+        formik.setFieldValue("birth", moment(res.birth).format("YYYY-MM-DD"));
+        formik.setFieldValue(
+          "baptism",
+          moment(res.baptism).format("YYYY-MM-DD")
+        );
+        formik.setFieldValue("address", res.address);
+        setPhoneInitialValue(res.phones);
+        formik.setFieldValue(
+          "tagIds",
+          res.tags.map((tag) => tag.id)
+        );
+      });
+    } else {
+      getPreacherList().then((res) => {
+        let freeId = 1;
+        while (res.includes(freeId)) {
+          freeId++;
+        }
 
-      formik.setFieldValue("id", freeId);
-    });
-  }, []);
+        formik.setFieldValue("id", freeId);
+      });
+    }
+  }, [id]);
 
   const setTagIds = (value: number[]) => {
     formik.setFieldValue("tagIds", value);
@@ -125,6 +175,7 @@ const EditPreacherPage = () => {
             <Date
               id="birth"
               label="Teraka"
+              value={formik.values.birth || ""}
               onChange={(event) =>
                 formik.setFieldValue("birth", event.currentTarget.value)
               }
@@ -132,7 +183,8 @@ const EditPreacherPage = () => {
             />
             <Date
               id="baptism"
-              label="Teraka"
+              label="Batisa"
+              value={formik.values.baptism || ""}
               onChange={(event) =>
                 formik.setFieldValue("baptism", event.currentTarget.value)
               }
@@ -170,6 +222,7 @@ const EditPreacherPage = () => {
             />
             <Phone
               label="Finday"
+              initialValue={phoneInitialValue}
               onChange={(values) => formik.setFieldValue("phones", values)}
             />
           </Surface>
@@ -178,6 +231,7 @@ const EditPreacherPage = () => {
             icon={IconPlus}
             label="Ampidirina"
             type="submit"
+            loading={submitting}
           />
         </form>
       </div>

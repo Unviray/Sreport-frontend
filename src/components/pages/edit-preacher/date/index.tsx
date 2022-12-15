@@ -2,13 +2,14 @@ import useStyles from "./style";
 
 interface Props {
   id: string;
+  value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   error?: string;
 }
 
 const Date = (props: Props) => {
-  const { id, onChange, label, error } = props;
+  const { id, value, onChange, label, error } = props;
   const classes = useStyles();
 
   return (
@@ -18,6 +19,7 @@ const Date = (props: Props) => {
         id={id}
         name={id}
         type="date"
+        value={value}
         onChange={onChange}
         className={`${classes.input} ${error ? classes.inputError : ""}`}
       />

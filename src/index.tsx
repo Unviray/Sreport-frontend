@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "react-jss";
+import { Toaster } from "react-hot-toast";
 
 import useWorkingMonth from "./hooks/working-month";
 import Navigation from "./navigation";
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <App />
+      <Toaster />
     </ThemeProvider>
   </React.StrictMode>
 );

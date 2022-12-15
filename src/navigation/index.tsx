@@ -15,6 +15,7 @@ const Navigation = () => {
           <Route path="/mpitory-vaovao" element={<EditPreacherPage />} />
           <Route path="/hitady" element={<SearchPage />} />
           <Route path="/mpitory/:id" element={<PreacherPage />} />
+          <Route path="/mpitory/:id/hanavao" element={<EditPreacherPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

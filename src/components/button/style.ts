@@ -3,8 +3,6 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   container: {
-    height: 44,
-    minWidth: 44,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -46,6 +44,16 @@ const useStyles = createUseStyles((theme) => ({
     "&:hover": {
       backgroundColor: Color(theme.colors.secondary).darken(0.1).string(),
     },
+  },
+
+  sizeDefault: {
+    height: 44,
+    minWidth: 44,
+  },
+
+  sizeSmall: {
+    height: 22,
+    minWidth: 22,
   },
 
   label: {

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { IconCalendar, IconMap2, IconPhone } from "@tabler/icons";
+import { IconCalendar, IconMap2, IconPencil, IconPhone } from "@tabler/icons";
 import moment from "moment";
 
 import Surface from "@/components/surface";
 import { getPreacher } from "@/services/preacher";
 import InfoItem from "./info-item";
 import useStyles from "./style";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   id: number;
@@ -13,6 +14,7 @@ interface Props {
 
 const PreacherInfo = (props: Props) => {
   const { id } = props;
+  const navigate = useNavigate();
   const classes = useStyles();
   const [data, setData] = useState<{
     id: number;
@@ -42,7 +44,11 @@ const PreacherInfo = (props: Props) => {
   }
 
   return (
-    <Surface title="Mombamomba azy">
+    <Surface
+      title="Mombamomba azy"
+      actionIcon={IconPencil}
+      actionOnClick={() => navigate(`/mpitory/${id}/hanavao`)}
+    >
       <InfoItem
         icon={IconPhone}
         list={data.phones.map((phone) => {
@@ -56,11 +62,17 @@ const PreacherInfo = (props: Props) => {
       <InfoItem icon={IconMap2} list={[<span>{data.address}</span>]} />
       <InfoItem
         icon={IconCalendar}
-        list={[<span>Teraka: {moment.utc(data.birth).format("DD MMMM YYYY")}</span>]}
+        list={[
+          <span>Teraka: {moment.utc(data.birth).format("DD MMMM YYYY")}</span>,
+        ]}
       />
       <InfoItem
         icon={IconCalendar}
-        list={[<span>Batisa: {moment.utc(data.baptism).format("DD MMMM YYYY")}</span>]}
+        list={[
+          <span>
+            Batisa: {moment.utc(data.baptism).format("DD MMMM YYYY")}
+          </span>,
+        ]}
       />
     </Surface>
   );
