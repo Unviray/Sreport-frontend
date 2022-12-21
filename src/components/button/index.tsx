@@ -5,7 +5,7 @@ interface Props {
   icon?: TablerIcon;
   label?: string;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "default";
+  variant?: "primary" | "secondary" | "danger" | "default";
   size?: "small" | "default";
   type?: "button" | "submit" | "reset";
   className?: string;
@@ -29,6 +29,7 @@ const Button = (props: Props) => {
     default: classes.variantDefault,
     primary: classes.variantPrimary,
     secondary: classes.variantSecondary,
+    danger: classes.variantDanger,
   };
 
   const sizeClass = {
@@ -45,12 +46,20 @@ const Button = (props: Props) => {
     >
       {Icon ? (
         loading ? (
-          <IconLoader2 size={size === "default" ? 24 : 20} className={classes.loadingIcon} />
+          <IconLoader2
+            size={size === "default" ? 24 : 20}
+            className={classes.loadingIcon}
+          />
         ) : (
           <Icon size={size === "default" ? 24 : 20} />
         )
       ) : (
-        loading && <IconLoader2 size={size === "default" ? 24 : 20} className={classes.loadingIcon} />
+        loading && (
+          <IconLoader2
+            size={size === "default" ? 24 : 20}
+            className={classes.loadingIcon}
+          />
+        )
       )}
       {label && <p className={classes.label}>{label}</p>}
     </button>

@@ -39,19 +39,20 @@ export const getPreacher = async (id: number) => {
   ).data;
 };
 
-export const apiSendPreacher = async (
+export const updatePreacher = async (
   id: number,
   value: {
-    id: number;
-    group: number;
-    firstname: string;
-    lastname: string;
-    displayname: string;
-    birth: string | null;
-    baptism: string | null;
-    address: string;
-    phones: string[];
-    tagIds: number[];
+    id?: number;
+    group?: number;
+    firstname?: string;
+    lastname?: string;
+    displayname?: string;
+    birth?: string | null;
+    baptism?: string | null;
+    address?: string;
+    phones?: string[];
+    tagIds?: number[];
+    archived?: boolean;
   }
 ) => {
   return (
@@ -67,11 +68,50 @@ export const apiSendPreacher = async (
       address: string;
       birth: string;
       baptism: string;
+      archived: boolean;
       tags: {
         id: number;
         name: string;
         color: string;
       }[];
     }>(`/preacher/${id}`, value)
+  ).data;
+};
+
+export const createPreacher = async (
+  value: {
+    id: number;
+    group: number;
+    firstname: string;
+    lastname: string;
+    displayname: string;
+    birth?: string | null;
+    baptism?: string | null;
+    address?: string;
+    phones?: string[];
+    tagIds?: number[];
+    archive?: boolean;
+  }
+) => {
+  return (
+    await requests.post<{
+      id: number;
+      group: number;
+      returned: boolean;
+      displayName: string;
+      fullName: string;
+      lastName: string;
+      firstName: string;
+      phones: string[];
+      address: string;
+      birth: string;
+      baptism: string;
+      archive: boolean;
+      tags: {
+        id: number;
+        name: string;
+        color: string;
+      }[];
+    }>(`/preacher/new`, value)
   ).data;
 };

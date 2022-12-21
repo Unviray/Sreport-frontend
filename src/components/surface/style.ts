@@ -36,6 +36,10 @@ const useStyles = createUseStyles((theme) => ({
       bottom: 0,
     },
   },
+
+  actionContainer: {
+    display: "flex",
+  }
 }));
 
 export default useStyles;

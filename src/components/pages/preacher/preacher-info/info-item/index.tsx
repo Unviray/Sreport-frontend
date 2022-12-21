@@ -3,12 +3,17 @@ import useStyles from "./style";
 
 interface Props {
   icon: TablerIcon;
+  showIf?: boolean;
   list: React.ReactNode[];
 }
 
 const InfoItem = (props: Props) => {
-  const { icon: Icon, list } = props;
+  const { icon: Icon, showIf, list } = props;
   const classes = useStyles();
+
+  if (!showIf) {
+    return null;
+  }
 
   return (
     <div className={classes.container}>

@@ -21,7 +21,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 
   variantDefault: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "#00000000",
     color: theme.colors.primary,
 
     "&:hover": {
@@ -43,6 +43,15 @@ const useStyles = createUseStyles((theme) => ({
 
     "&:hover": {
       backgroundColor: Color(theme.colors.secondary).darken(0.1).string(),
+    },
+  },
+  variantDanger: {
+    backgroundColor: "#00000000",
+    color: theme.colors.error,
+
+    "&:hover": {
+      backgroundColor: theme.colors.error,
+      color: theme.colors.onError,
     },
   },
 

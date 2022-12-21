@@ -8,9 +8,10 @@ import moment from "moment";
 import * as yup from "yup";
 
 import {
-  apiSendPreacher,
+  updatePreacher,
   getPreacher,
   getPreacherList,
+  createPreacher,
 } from "@/services/preacher";
 import ErrorContainer from "@/components/forms/error-container";
 import Field from "@/components/pages/edit-preacher/field";
@@ -76,28 +77,45 @@ const EditPreacherPage = () => {
         .min(0, "Tokony mihoatran'ny na mitovy amin'ny 0")
         .integer("Tokony ho isa tsy misy faingo"),
       firstname: yup.string().required("Ilaina ity"),
+      displayname: yup.string().required("Ilaina ity"),
     }),
     onSubmit: (values) => {
       setSubmitting(true);
-      apiSendPreacher(parseInt(id || "0"), values)
-        .then((res) => {
-          toast.success(
-            id ? "Tontosa ny fanovana" : "Tafiditra soa-amantsara",
-            {
+      if (id) {
+        updatePreacher(+id, values)
+          .then((res) => {
+            toast.success("Tontosa ny fanovana", {
               position: "bottom-left",
-            }
-          );
+            });
 
-          navigate(`/mpitory/${res.id}`);
-        })
-        .catch(() => {
-          toast.error(id ? "Nisy olana tamin'ny fanovana" : "Tsy tafiditra", {
-            position: "bottom-left",
+            navigate(`/mpitory/${res.id}`);
+          })
+          .catch(() => {
+            toast.error("Nisy olana tamin'ny fanovana", {
+              position: "bottom-left",
+            });
+          })
+          .finally(() => {
+            setSubmitting(false);
           });
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
+      } else {
+        createPreacher(values)
+          .then((res) => {
+            toast.success("Tafiditra soa-amantsara", {
+              position: "bottom-left",
+            });
+
+            navigate(`/mpitory/${res.id}`);
+          })
+          .catch(() => {
+            toast.error("Tsy tafiditra", {
+              position: "bottom-left",
+            });
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
+      }
     },
   });
 
@@ -118,7 +136,9 @@ const EditPreacherPage = () => {
         setPhoneInitialValue(res.phones);
         formik.setFieldValue(
           "tagIds",
-          res.tags.map((tag) => tag.id)
+          res.tags
+            .filter((tag) => !tag.soon && !tag.current)
+            .map((tag) => tag.id)
         );
       });
     } else {

@@ -1,4 +1,4 @@
-import { TablerIcon } from "@tabler/icons"
+import { TablerIcon } from "@tabler/icons";
 
 export interface Props {
   title?: string;
@@ -6,6 +6,9 @@ export interface Props {
   color?: string;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  actionIcon?: TablerIcon;
-  actionOnClick?: () => void;
+  actions?: {
+    icon: TablerIcon;
+    variant?: "danger" | "default";
+    onClick: () => void;
+  }[];
 }
