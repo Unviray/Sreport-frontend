@@ -28,11 +28,11 @@ export const getPreacher = async (id: number) => {
         color: string;
         soon?: {
           start: TWorkingMonth;
-          end: TWorkingMonth;
+          end: TWorkingMonth | 0;
         };
         current?: {
           start: TWorkingMonth;
-          end: TWorkingMonth;
+          end: TWorkingMonth | 0;
         };
       }[];
     }>(`/preacher/${id}`)

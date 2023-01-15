@@ -4,6 +4,7 @@ import * as yup from "yup";
 
 import type { TWorkingMonth } from "@/types/month";
 import { apiReport, apiSendReport } from "@/services/report";
+import { getPreacher } from "@/services/preacher";
 import ErrorContainer from "@/components/forms/error-container";
 import FilterTags from "@/components/filter-tags";
 import Button from "@/components/button";
@@ -83,6 +84,17 @@ const Form = (props: Props) => {
     apiReport(id, workingMonth).then((report) => {
       if (report === null) {
         formik.resetForm();
+        getPreacher(id).then((res) => {
+          let tags: number[] = [];
+          console.log(res);
+          res.tags.forEach((tag) => {
+            if (tag.current !== undefined) {
+              tags.push(tag.id);
+            }
+          });
+
+          formik.setFieldValue("tagIds", tags);
+        });
       } else {
         formik.setFieldValue("publication", report.publication);
         formik.setFieldValue("video", report.video);
